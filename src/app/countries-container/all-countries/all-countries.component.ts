@@ -1,25 +1,25 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { City } from 'src/app/_core/interfaces/city';
-import { MatTableDataSource } from "@angular/material/table";
-import { MatSort } from "@angular/material/sort";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Country } from 'src/app/_core/interfaces/country';
+import { CountriesService } from 'src/app/_core/services/country-services/countries.service';
 import { ToasterComponent } from 'src/app/_shared/toaster/toaster.component';
-import { CityService } from 'src/app/_core/services/city-services/city.service';
-@Component({
-  selector: 'app-all-cities',
-  templateUrl: './all-cities.component.html',
-  styleUrls: ['./all-cities.component.css']
-})
-export class AllCitiesComponent implements OnInit {
 
-  cities:MatTableDataSource<City>;
+@Component({
+  selector: 'app-all-countries',
+  templateUrl: './all-countries.component.html',
+  styleUrls: ['./all-countries.component.css']
+})
+export class AllCountriesComponent implements OnInit {
+
+  countries:MatTableDataSource<Country>;
   displayedColumns: string[] = [
     "id",
     "name",
-    "name_ASCII",
-    "latitude",
-    "longtitude",
+    "iso2",
+    "iso3",
   ];
 
   @ViewChild("Paginator", { static: true }) paginator: MatPaginator;
@@ -38,29 +38,29 @@ export class AllCitiesComponent implements OnInit {
   sortOrder:string = "asc"
   keyword:string = "";
   
-  cityService:CityService
+  countryService:CountriesService
   spinner:NgxSpinnerService
   toaster:ToasterComponent
   constructor(private injector:Injector) {
-    this.cityService = injector.get(CityService)
+    this.countryService = injector.get(CountriesService)
     this.spinner = injector.get(NgxSpinnerService)
     this.toaster = injector.get(ToasterComponent)
    }
 
   ngOnInit(): void {
-    this.getAllCities()
+    this.getAllCountries()
   }
 
-  getAllCities(){
+  getAllCountries(){
     this.sortColumn = (this.sortColumn)?this.sort.active:"name";
     this.sortOrder = (this.sortOrder)?this.sort.direction:"asc";
     console.log(this.sort)
 
     this.spinner.show()
-    this.cityService.getAllCities(this.pageNumber , this.pageSize,this.sortColumn , this.sortOrder ,'name',this.keyword).subscribe(
+    this.countryService.getAllCountries(this.pageNumber , this.pageSize,this.sortColumn , this.sortOrder ,'name',this.keyword).subscribe(
       (result:any)=>{
         this.spinner.hide()
-        this.cities = new MatTableDataSource<City>(result.data.result);
+        this.countries = new MatTableDataSource(result.data.result);
         this.pageLength = result.data.rowCount
         //this.dataSource.sort = this.sort
         this.toaster.success("all cities ......")
@@ -72,8 +72,7 @@ export class AllCitiesComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNumber = this.pageIndex + 1;
-    this.getAllCities()
+    this.getAllCountries()
   }
-
 
 }
