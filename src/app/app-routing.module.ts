@@ -8,8 +8,15 @@ const routes: Routes = [
       import("./city-container/city-container.module").then(
         (mod)=>mod.CityContainerModule
       )
-  }
-];
+    },
+    {
+      path:"countries",
+      loadChildren:()=>
+        import("./countries-container/countries-container.module").then(
+          (mod)=>mod.CountriesContainerModule
+        )
+    }
+  ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
