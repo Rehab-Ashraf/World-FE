@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './layout/header/header.component';
 import { ToasterComponent } from './toaster/toaster.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -13,6 +14,7 @@ import { FooterComponent } from './layout/footer/footer.component';
   ],
   imports: [
     CommonModule
-  ]
+  ],
+  providers:[DatePipe]
 })
 export class SharedModule { }

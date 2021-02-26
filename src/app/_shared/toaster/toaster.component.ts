@@ -20,12 +20,9 @@ export class ToasterComponent implements OnInit {
     });
   }
 
-  success(message: string, action?: string, className?: string) {
+  success(message: string, action?: string) {
     this.snackBar.open(message, action, {
-      duration: 4000,
-      verticalPosition: "bottom",
-      horizontalPosition: "center",
-      panelClass: ["success-alert"],
+      duration: 2000,
     });
   }
   ngOnInit(): void {

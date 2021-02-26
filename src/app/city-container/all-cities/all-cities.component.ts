@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { City } from 'src/app/_core/interfaces/city';
+import { CityService } from 'src/app/_core/services/cityServices/city.service';
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToasterComponent } from 'src/app/_shared/toaster/toaster.component';
 @Component({
   selector: 'app-all-cities',
   templateUrl: './all-cities.component.html',
@@ -7,9 +13,68 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllCitiesComponent implements OnInit {
 
-  constructor() { }
+  cities:City[];
+  displayedColumns: string[] = [
+    "id",
+    "name",
+    "name_ASCII",
+    "latitude",
+    "longtitude",
+  ];
+
+  @ViewChild("Paginator", { static: true }) paginator: MatPaginator;
+
+  @ViewChild("Sort", { static: true }) sort: MatSort;
+
+  dataSource: MatTableDataSource<any>;
+
+  pageSize: number = 20;
+  pageNumber: number = 1;
+  pageEvent: PageEvent;
+  pageIndex: number;
+  pageLength;
+
+  sortColumn:string = "name";
+  sortOrder:string = "asc"
+  keyword:string = "";
+  
+  cityService:CityService
+  spinner:NgxSpinnerService
+  toaster:ToasterComponent
+  constructor(private injector:Injector) {
+    this.cityService = injector.get(CityService)
+    this.spinner = injector.get(NgxSpinnerService)
+    this.toaster = injector.get(ToasterComponent)
+   }
 
   ngOnInit(): void {
+    this.getAllCities()
   }
+
+  getAllCities(){
+    this.sortColumn = (this.sortColumn)?this.sort.active:"name";
+    this.sortOrder = (this.sortOrder)?this.sort.direction:"asc";
+    console.log(this.sort)
+
+    this.spinner.show()
+    this.cityService.getAllCities(this.pageNumber , this.pageSize,this.sortColumn , this.sortOrder ,'name',this.keyword).subscribe(
+      (result:any)=>{
+        this.spinner.hide()
+        this.cities = result.data.cities;
+        this.dataSource = new MatTableDataSource(result.data.result);
+        this.pageLength = result.data.rowCount
+        //this.dataSource.sort = this.sort
+        this.toaster.success("all cities ......")
+      }
+    )
+  }
+
+  changePage(event: MatPaginator) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.pageNumber = this.pageIndex + 1;
+    this.getAllCities()
+  }
+
 
 }
