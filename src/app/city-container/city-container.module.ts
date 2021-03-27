@@ -7,7 +7,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -20,7 +22,10 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    FormsModule
-  ]
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    NgSelectModule
+  ],entryComponents:[AddEditCityComponent]
 })
 export class CityContainerModule { }

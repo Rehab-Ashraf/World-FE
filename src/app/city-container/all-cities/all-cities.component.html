@@ -1,44 +1,63 @@
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true">
     <p style="color: white" > Loading... </p>
 </ngx-spinner>
-<div class=" col-8" style="margin: auto;">
+<div class="col-8" style="margin: auto;">
   <h3>Cities</h3>
   <p>Here's a list of cities feel free to play with it.</p>
-  <div class="input-group col-6" style="margin-top: 5px;">
-    <input type="search" class="form-control rounded" [(ngModel)]="keyword" placeholder="Search by name" (keyup.enter)="getAllCities()" aria-label="Search"
-      aria-describedby="search-addon" />
-    <button type="button" class="btn btn-outline-primary" (click)="getAllCities()">search</button>
+  <div class="row" style="justify-content: space-between;margin-top: 5px;">
+    <div class="input-group col-6">
+      <input type="search" class="form-control rounded" [(ngModel)]="keyword" placeholder="Search by name" (keyup.enter)="getAllCities()" aria-label="Search"
+        aria-describedby="search-addon" />
+      <button type="button" class="btn btn-outline-primary" (click)="getAllCities()">search</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-info" (click)="onAddEditCity({},'add')">
+        Add a new city
+      </button>
+    </div>
   </div>
   <table mat-table [dataSource]="cities" class="table table-striped table-hover" style="margin-top: 5px;" matSort #Sort="matSort" 
       matSortActive = "name" matSortDirection = "asc" (matSortChange)="getAllCities()" >  
       <!-- Position Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="thead-dark"> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 15px;" > No. </th>
+        <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.id}} </td>
       </ng-container>
     
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 15px;"> Name </th>
+        <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.name}} </td>
       </ng-container>
     
       <!-- Weight Column -->
       <ng-container matColumnDef="name_ASCII">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name_ASCII </th>
-        <td mat-cell *matCellDef="let element"> {{element.name_ASCII}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 15px;"> Name_ASCII </th>
+        <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.name_ASCII}} </td>
       </ng-container>
     
       <!-- Symbol Column -->
       <ng-container matColumnDef="latitude">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Latitude </th>
-        <td mat-cell *matCellDef="let element"> {{element.latitude}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 15px;"> Latitude </th>
+        <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.latitude}} </td>
       </ng-container>
   
       <ng-container matColumnDef="longtitude">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Longtitude </th>
-          <td mat-cell *matCellDef="let element"> {{element.longtitude}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 15px;"> Longtitude </th>
+          <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.longtitude}} </td>
       </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 15px;"></th>
+        <td mat-cell *matCellDef="let element" style="padding: 10px;">
+          <button class="btn btn-info" (click)="onAddEditCity(element , 'edit')">
+            Edit
+          </button>
+          &nbsp;
+          <button class="btn btn-danger" (click)="onDeleteCity(element.id)">
+            Delete
+          </button>
+        </td>
+    </ng-container>
     
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
