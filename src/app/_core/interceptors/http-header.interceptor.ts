@@ -15,16 +15,20 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const headersConfig = {};
     //here we can add token 
-    // request = request.clone({
-    //   headers: request.headers.set(
-    //     "Content-Type",
-    //     "application/json; charset=utf-8"
-    //   ),
-    // });
-    // request = request.clone({
-    //   headers: request.headers.set("Accept", "*/*"),
-    // });
+    if(request.method == "POST"){
+      request = request.clone({
+        headers: request.headers.set(
+          "Content-Type",
+          "application/json"
+          ),
+        });
+      console.log(request)
+    }
+    request = request.clone({
+      headers: request.headers.set("Accept", "*/*"),
+    });
     const req = request.clone({ setHeaders: headersConfig });
+    console.log(req)
     return next.handle(req);
   }
 

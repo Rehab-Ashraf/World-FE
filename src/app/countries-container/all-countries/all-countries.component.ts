@@ -48,6 +48,7 @@ export class AllCountriesComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.getAge(21)
     this.getAllCountries()
   }
 
@@ -63,11 +64,13 @@ export class AllCountriesComponent implements OnInit {
         this.countries = new MatTableDataSource(result.data.result);
         this.pageLength = result.data.rowCount
         //this.dataSource.sort = this.sort
-        this.toaster.success("all cities ......")
+        this.toaster.success("all countries ......")
       }
     )
   }
-
+  getAge(num:any) {
+    console.log(typeof num)
+  }
   changePage(event: MatPaginator) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;

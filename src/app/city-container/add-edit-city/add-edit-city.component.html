@@ -1,1 +1,42 @@
-<p>add-edit-city works!</p>
+
+<div style="margin: -22px">
+    <div class="card card-1">
+        <div class="card-heading"></div>
+        <div class="card-body">
+            <h2 class="title">{{title}}</h2>
+            <form [formGroup]="addEditCityForm">
+                <div *ngIf="addEditCityForm.invalid && addEditCityForm?.errors?.isDupeCity " class="alert alert-danger">
+                    <strong>ERROR</strong>:
+                    A city with the same <i>name</i>,<i>lat</i>,<i>Long</i>and<i>country</i>already exsists.
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1"  id="validationCustom03" type="text" placeholder="City NAME" formControlName="name">
+                    <div style="color: red;" *ngIf="addEditCityForm.get('name').invalid && addEditCityForm.get('name').touched ">
+                       *required
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1" type="text" placeholder="name_ASCII" formControlName="name_ASCII">
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1" type="number" placeholder="City latitude" formControlName="latitude">
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1" type="number" placeholder="City longtitude" formControlName="longtitude">
+                </div>
+                <ng-select class="col-8" formControlName="countryId" placeholder="country">
+                    <ng-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ng-option>
+                </ng-select>
+                <div style="color: red;" *ngIf="addEditCityForm.get('countryId').invalid && addEditCityForm.get('countryId').touched ">
+                    *required
+                </div>
+                <br>
+                <div class="p-t-20 col-8">
+                    <button class="btn btn--radius btn-info" type="submit" (click)="onSubmit()">Submit</button>
+                    <button class="btn btn--radius btn-danger" type="button" (click)="dialogRef.close()">Cancle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

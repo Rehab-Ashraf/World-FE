@@ -47,7 +47,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             errorMessage = `Error Code: ${error.status}\nMessage: Not Found`;
             break;
           case 500:
-            errorMessage = `حدثت مشكلة بالسيرفر`;
+            errorMessage = `Something went wrong`;
+            break;
+          case 400:
+            errorMessage = `${error.error.data}`;
             break;
           default:
             errorMessage = "unknown error";

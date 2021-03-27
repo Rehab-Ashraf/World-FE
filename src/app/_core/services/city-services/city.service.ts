@@ -19,4 +19,11 @@ export class CityService {
                      .set("filterQuery",keyword)
     return this.apiService.get(`Cities`,params);
   }
+
+  isDupeCity(city){
+    return this.apiService.post(`Cities/IsDupeCity`,city);
+  }
+  addCity(city){
+    return this.apiService.post(`Cities`,city);
+  }
 }

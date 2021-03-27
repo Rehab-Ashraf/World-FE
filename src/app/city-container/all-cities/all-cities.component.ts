@@ -6,6 +6,9 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToasterComponent } from 'src/app/_shared/toaster/toaster.component';
 import { CityService } from 'src/app/_core/services/city-services/city.service';
+import { AddEditCityComponent } from '../add-edit-city/add-edit-city.component';
+import { MatDialog } from "@angular/material/dialog";
+
 @Component({
   selector: 'app-all-cities',
   templateUrl: './all-cities.component.html',
@@ -20,6 +23,7 @@ export class AllCitiesComponent implements OnInit {
     "name_ASCII",
     "latitude",
     "longtitude",
+    "action"
   ];
 
   @ViewChild("Paginator", { static: true }) paginator: MatPaginator;
@@ -41,10 +45,13 @@ export class AllCitiesComponent implements OnInit {
   cityService:CityService
   spinner:NgxSpinnerService
   toaster:ToasterComponent
+  public dialog: MatDialog
+
   constructor(private injector:Injector) {
     this.cityService = injector.get(CityService)
     this.spinner = injector.get(NgxSpinnerService)
     this.toaster = injector.get(ToasterComponent)
+    this.dialog = injector.get(MatDialog)
    }
 
   ngOnInit(): void {
@@ -75,5 +82,34 @@ export class AllCitiesComponent implements OnInit {
     this.getAllCities()
   }
 
+  onAddEditCity(row , mode){
+    const dialogRef = this.dialog.open(AddEditCityComponent, {
+      width: "50vw",
+      height: "auto",
+      maxHeight:"90vh",
+      data: {
+        city: row,
+        mode:mode
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+        if(row == "add"){
+          console.log(result);
 
+          this.cityService.addCity(result).subscribe((result:any)=>{
+            this.toaster.success('city added successfuly')
+          })
+        }else{
+
+        }
+      } else {
+        return;
+      }
+    });
+  }
+  onDeleteCity(id){
+
+  }
 }
