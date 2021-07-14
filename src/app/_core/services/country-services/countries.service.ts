@@ -27,4 +27,11 @@ export class CountriesService {
     }
     return this.apiService.get(`Countries`,params);
   }
+
+  addCountry(country){
+    return this.apiService.post(`Countries`,country);
+  }
+  isDupeField(){
+    return this.apiService.get(`Countries/IsDupeField`);
+  }
 }
