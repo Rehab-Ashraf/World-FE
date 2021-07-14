@@ -1,0 +1,57 @@
+
+<div style="margin: -22px">
+    <div class="card card-1">
+        <div class="card-heading"></div>
+        <div class="card-body">
+            <h2 class="title">{{title}}</h2>
+            <form [formGroup]="addEditCountryForm">
+
+                <div class="input-group">
+                    <input class="input--style-1"  id="validationCustom03" type="text" placeholder="City NAME" formControlName="name">
+                    <div style="color: red;" *ngIf="getControl('name').errors.required">
+                       *required
+                    </div>
+                    <div style="color: red;" *ngIf="getControl('name').errors.isDupeField">
+                        *Name already exists: please choose another
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1" type="text" placeholder="ISO country code (2 letters)" formControlName="isO2">
+                    <div *ngIf="hasError('name')">
+                        <div style="color: red;" *ngIf="getControl('isO2').errors.required">
+                            *required
+                         </div>
+                         <div style="color: red;" *ngIf="getControl('isO3').errors.pattern">
+                            *ISO 3166-1 ALPHA-2 country code required 2 letters.
+                        </div>
+                         <div style="color: red;" *ngIf="getControl('isO2').errors.isDupeField">
+                             *This ISO 3166-1 ALPHA-2 country code already exists: please choose another
+                         </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1" type="text" placeholder="ISO country code (3 letters)" formControlName="isO3">
+                    <div *ngIf="hasError('isO3')">
+                        <div style="color: red;" *ngIf="getControl('isO3').errors.required ">
+                            *required
+                         </div>
+                         <div style="color: red;" *ngIf="getControl('isO3').errors.pattern">
+                            *ISO 3166-1 ALPHA-3 country code required 3 letters.
+                        </div>
+                         <div style="color: red;" *ngIf="getControl('isO3').errors.isDupeField">
+                             *This ISO 3166-1 ALPHA-3 country code already exists: please choose another
+                         </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input class="input--style-1" type="number" placeholder="City longtitude" formControlName="longtitude">
+                </div>
+                <div class="p-t-20 col-8">
+                    <button class="btn btn--radius btn-info" type="submit" (click)="onSubmit()">Submit</button>
+                    <button class="btn btn--radius btn-danger" type="button" (click)="dialogRef.close()">Cancle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -11,7 +11,7 @@
                 </div>
                 <div class="input-group">
                     <input class="input--style-1"  id="validationCustom03" type="text" placeholder="City NAME" formControlName="name">
-                    <div style="color: red;" *ngIf="addEditCityForm.get('name').invalid && addEditCityForm.get('name').touched ">
+                    <div style="color: red;" *ngIf="hasError('name')">
                        *required
                     </div>
                 </div>
@@ -20,14 +20,26 @@
                 </div>
                 <div class="input-group">
                     <input class="input--style-1" type="number" placeholder="City latitude" formControlName="latitude">
+                    <div style="color: red;" *ngIf="hasError('latitude')">
+                        *required
+                     </div>
+                     <div style="color: red;" *ngIf="hasError('latitude')">
+                        *latitude requires a positive or nagative number with 0-4 decimals values
+                     </div>
                 </div>
                 <div class="input-group">
                     <input class="input--style-1" type="number" placeholder="City longtitude" formControlName="longtitude">
+                    <div style="color: red;" *ngIf="hasError('longtitude')">
+                        *required
+                    </div>
+                    <div style="color: red;" *ngIf="hasError('longtitude')">
+                        *longtitude requires a positive or nagative number with 0-4 decimals values
+                     </div>
                 </div>
                 <ng-select class="col-8" formControlName="countryId" placeholder="country">
                     <ng-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ng-option>
                 </ng-select>
-                <div style="color: red;" *ngIf="addEditCityForm.get('countryId').invalid && addEditCityForm.get('countryId').touched ">
+                <div style="color: red;" *ngIf="hasError('countryId')">
                     *required
                 </div>
                 <br>

@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Country } from 'src/app/_core/interfaces/country';
 import { CountriesService } from 'src/app/_core/services/country-services/countries.service';
 import { ToasterComponent } from 'src/app/_shared/toaster/toaster.component';
+import { AddEditCountryComponent } from '../add-edit-country/add-edit-country.component';
 
 @Component({
   selector: 'app-all-countries',
@@ -20,6 +22,7 @@ export class AllCountriesComponent implements OnInit {
     "name",
     "iso2",
     "iso3",
+    "action"
   ];
 
   @ViewChild("Paginator", { static: true }) paginator: MatPaginator;
@@ -41,14 +44,15 @@ export class AllCountriesComponent implements OnInit {
   countryService:CountriesService
   spinner:NgxSpinnerService
   toaster:ToasterComponent
+  public dialog:MatDialog
   constructor(private injector:Injector) {
     this.countryService = injector.get(CountriesService)
     this.spinner = injector.get(NgxSpinnerService)
     this.toaster = injector.get(ToasterComponent)
+    this.dialog = injector.get(MatDialog)
    }
 
   ngOnInit(): void {
-    this.getAge(21)
     this.getAllCountries()
   }
 
@@ -68,14 +72,39 @@ export class AllCountriesComponent implements OnInit {
       }
     )
   }
-  getAge(num:any) {
-    console.log(typeof num)
-  }
   changePage(event: MatPaginator) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNumber = this.pageIndex + 1;
     this.getAllCountries()
   }
+  onAddEditCountry(row , mode){
+    const dialogRef = this.dialog.open(AddEditCountryComponent, {
+      width: "50vw",
+      height: "auto",
+      maxHeight:"90vh",
+      data: {
+        city: row,
+        mode:mode
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+        if(row == "add"){
+          console.log(result);
+          this.countryService.addCountry(result).subscribe((result:any)=>{
+            this.toaster.success('country added successfuly')
+          })
+        }else{
 
+        }
+      } else {
+        return;
+      }
+    });
+  }
+  onDeleteCountry(id){
+
+  }
 }

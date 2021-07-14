@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { baseForm } from 'src/app/_core/classes/baseForm';
 import { City } from 'src/app/_core/interfaces/city';
 import { Country } from 'src/app/_core/interfaces/country';
 import { CityService } from 'src/app/_core/services/city-services/city.service';
@@ -15,7 +16,7 @@ import { ToasterComponent } from 'src/app/_shared/toaster/toaster.component';
   templateUrl: './add-edit-city.component.html',
   styleUrls: ['./add-edit-city.component.css']
 })
-export class AddEditCityComponent implements OnInit {
+export class AddEditCityComponent extends baseForm implements OnInit {
 
   title:string;
   addEditCityForm:FormGroup;
@@ -35,7 +36,9 @@ export class AddEditCityComponent implements OnInit {
     private countryService:CountriesService,
     private cityService:CityService,
     private toaster:ToasterComponent
-    ) { }
+    ) { 
+      super();
+    }
 
   ngOnInit(): void {
     this.generateCityForm()
@@ -63,8 +66,8 @@ export class AddEditCityComponent implements OnInit {
       id:new FormControl(0),
       name:new FormControl('',Validators.required),
       name_ASCII:new FormControl(''),
-      latitude:new FormControl('',Validators.required),
-      longtitude:new FormControl('',Validators.required),
+      latitude:new FormControl('',[Validators.required,Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?$')]),
+      longtitude:new FormControl('',[Validators.required,Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?$')]),
       countryId:new FormControl('',Validators.required),
     },null,this.isDupeCity())
   }
@@ -92,5 +95,6 @@ export class AddEditCityComponent implements OnInit {
       }));
     }
   }
+
 
 }
